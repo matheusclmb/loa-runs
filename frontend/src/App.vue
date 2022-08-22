@@ -20,9 +20,7 @@
       <div class="navbar-start">
         <router-link to="/" class="navbar-item"> Home </router-link>
         <div class="navbar-item has-dropdown is-hoverable">
-          <router-link to="/abyss" class="navbar-link">
-            Abyss Raids
-          </router-link>
+          <router-link to="#" class="navbar-link"> Abyss Raids </router-link>
           <div class="navbar-dropdown is-boxed">
             <router-link to="/abyss/argos" class="navbar-item is-active">
               Argos
@@ -30,9 +28,7 @@
           </div>
         </div>
         <div class="navbar-item has-dropdown is-hoverable">
-          <router-link to="/legion" class="navbar-link">
-            Legion Raids
-          </router-link>
+          <router-link to="#" class="navbar-link"> Legion Raids </router-link>
           <div class="navbar-dropdown is-boxed">
             <router-link to="/legion/valtan" class="navbar-item has-text-link">
               Valtan
@@ -56,38 +52,78 @@
         <div class="navbar-item">
           <div class="field is-grouped">
             <p class="control">
-              <a
-                class="bd-tw-button button"
-                data-social-network="Twitter"
-                data-social-action="tweet"
-                data-social-target="https://bulma.io"
-                target="_blank"
-                href="https://twitter.com/intent/tweet?text=Bulma: a modern CSS framework based on Flexbox&amp;hashtags=bulmaio&amp;url=https://bulma.io&amp;via=jgthms"
-              >
+              <router-link class="bd-tw-button button" to="/help">
                 <span class="icon">
                   <i class="fas fa-circle-question"></i>
                 </span>
                 <span> Help </span>
-              </a>
+              </router-link>
             </p>
             <p class="control">
-              <a
-                class="button is-link"
-                href="https://github.com/jgthms/bulma/releases/download/0.9.4/bulma-0.9.4.zip"
-              >
+              <router-link class="button is-link" to="/submitrun">
                 <span class="icon">
                   <i class="fas fa-upload"></i>
                 </span>
                 <span>Submit Run</span>
-              </a>
+              </router-link>
             </p>
           </div>
         </div>
       </div>
     </div>
   </nav>
+
+  <section class="section">
+    <router-view />
+  </section>
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>LOA.runs</strong> by
+        <a href="https://github.com/matheusclmb/">CLMB</a>. This website is not
+        affiliated or endorsed with/by
+        <a href="https://www.amazongames.com/">Amazon Games</a>
+        or
+        <a href="https://smilegate.com/">SmileGate</a>. All rights reserved to
+        those companies.
+      </p>
+      <div class="field is-grouped is-justify-content-center">
+        <p class="control">
+          <a
+            class="button is-link"
+            href="https://github.com/matheusclmb/loa-runs"
+            target="_blank"
+          >
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+            <span>GitHub</span>
+          </a>
+        </p>
+
+        <p class="control">
+          <a
+            class="button is-link"
+            href="https://www.buymeacoffee.com/matheusclmb"
+            target="_blank"
+          >
+            <span class="icon">
+              <i class="fas fa-mug-hot"></i>
+            </span>
+            <span>Buy Me A Coffee</span>
+          </a>
+        </p>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <style lang="scss">
 @import "../node_modules/bulma";
+
+html,
+body {
+  height: 100vh;
+}
 </style>
