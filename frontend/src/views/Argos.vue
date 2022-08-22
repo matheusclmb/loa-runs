@@ -1,5 +1,5 @@
 <template>
-  <RaidInfo msg="sex" />
+  <RaidInfo />
 </template>
 
 <script>

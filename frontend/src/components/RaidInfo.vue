@@ -1,13 +1,13 @@
 <template>
   <div class="box">
     <div class="is-flex is-align-items-center">
-      <img src="../assets/argos.jpeg" alt="Argos" class="mr-6" />
+      <img v-bind:src="raid.get_image" alt="Argos" class="mr-6" />
       <ul>
-        <li class="is-size-1">Argos</li>
-        <li><strong>Type:</strong> Abyss Raid</li>
-        <li><strong>Comp:</strong> 8 players</li>
-        <li><strong>Gates:</strong> 3</li>
-        <li><strong>Minimum iLvl:</strong> 1370 (normal)</li>
+        <li class="is-size-1">{{ raid.name }}</li>
+        <li><strong>Type:</strong> {{ raid.type }}</li>
+        <li><strong>Comp:</strong> {{ raid.comp }} players</li>
+        <li><strong>Gates:</strong> {{ raid.gates }}</li>
+        <li><strong>Minimum iLvl:</strong> {{ raid.minimum_level }}</li>
       </ul>
     </div>
   </div>
@@ -138,19 +138,41 @@
       </table>
     </div>
   </div>
+
+  <button @click="console()">oi</button>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Raidinfo",
   data() {
     return {
+      raid: [],
       isActive: "normal",
     };
+  },
+  mounted() {
+    this.getData();
   },
   methods: {
     getActive(difficulty) {
       this.isActive = difficulty;
+    },
+    console() {
+      console.log(this.raid);
+    },
+    getData() {
+      axios
+        .get("/api/v1/abyssraids/")
+        .then((response) => {
+          console.log(response.data);
+          this.raid = response.data[0];
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
