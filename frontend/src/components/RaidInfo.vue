@@ -138,8 +138,6 @@
       </table>
     </div>
   </div>
-
-  <button @click="console()">oi</button>
 </template>
 
 <script>
@@ -160,15 +158,13 @@ export default {
     getActive(difficulty) {
       this.isActive = difficulty;
     },
-    console() {
-      console.log(this.raid);
-    },
     getData() {
       axios
         .get("/api/v1/abyssraids/")
         .then((response) => {
-          console.log(response.data);
           this.raid = response.data[0];
+
+          document.title = this.raid.name + " | LOA.runs";
         })
         .catch((error) => {
           console.log(error);
