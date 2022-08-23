@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 # Create your models here.
@@ -49,3 +50,54 @@ class LegionRaids(models.Model):
         if self.image:
             return "http://127.0.0.1:8000" + self.image.url
         return ""
+
+class Runs(models.Model):
+    class Meta:
+        verbose_name_plural = "Runs"
+
+    TYPE_CHOICE = (("Abyss Raid", "Abyss Raid"), ("Legion Raid", "Legion Raid"))
+
+    RAID_NAMES = (
+        ("Argos", "Argos"), 
+        ("Valtan", "Vykas"),
+        ("Kakul-Saydon", "Kakul-Saydon"),
+        )
+
+    DIFFICULTIES = (
+        ("Normal", "Normal"),
+        ("Hard", "Hard"),
+        ("Inferno", "Inferno"),
+        )
+
+    
+
+    youtube = models.URLField(blank=True, null=True)
+    screenshot = models.ImageField(upload_to="runs/", blank=True, null=True)
+    raid_type = models.CharField(max_length=200, choices=TYPE_CHOICE)
+    raid_name = models.CharField(max_length=200, choices=RAID_NAMES)
+    difficulty = models.CharField(max_length=200, choices=DIFFICULTIES)
+    time = models.CharField(max_length=10)
+    deathless = models.BooleanField(default=False)
+    discord = models.CharField(max_length=200)
+
+    playerOne = models.CharField(max_length=200)
+    playerTwo = models.CharField(max_length=200)
+    playerThree = models.CharField(max_length=200, blank=True, null=True)
+    playerFour = models.CharField(max_length=200, blank=True, null=True)
+    playerFive = models.CharField(max_length=200, blank=True, null=True)
+    playerSix = models.CharField(max_length=200, blank=True, null=True)
+    playerSeven = models.CharField(max_length=200, blank=True, null=True)
+    playerEight = models.CharField(max_length=200, blank=True, null=True)
+
+    playerOneLVL = models.IntegerField(default=0)
+    playerTwoLVL = models.IntegerField(default=0)
+    playerThreeLVL = models.IntegerField(default=0, blank=True, null=True)
+    playerFourLVL = models.IntegerField(default=0, blank=True, null=True)
+    playerFiveLVL = models.IntegerField(default=0, blank=True, null=True)
+    playerSixLVL = models.IntegerField(default=0, blank=True, null=True)
+    playerSevenLVL = models.IntegerField(default=0, blank=True, null=True)
+    playerEightLVL = models.IntegerField(default=0, blank=True, null=True)
+
+
+    def __str__(self):
+        return f"N: {self.raid_name} - D: {self.difficulty} - T: {self.time} - {self.discord}"
