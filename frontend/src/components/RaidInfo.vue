@@ -7,7 +7,10 @@
         <li><strong>Type:</strong> {{ raid.type }}</li>
         <li><strong>Comp:</strong> {{ raid.comp }} players</li>
         <li><strong>Gates:</strong> {{ raid.gates }}</li>
-        <li><strong>Minimum iLvl:</strong> {{ raid.minimum_level }}</li>
+        <li>
+          <strong>Minimum iLvl:</strong> {{ raid.minimum_level }} /
+          {{ raid.minimum_level2 }} / {{ raid.minimum_level3 }}
+        </li>
       </ul>
     </div>
   </div>
@@ -141,34 +144,19 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "Raidinfo",
+  props: {
+    raid: Object,
+  },
   data() {
     return {
-      raid: [],
       isActive: "normal",
     };
-  },
-  mounted() {
-    this.getData();
   },
   methods: {
     getActive(difficulty) {
       this.isActive = difficulty;
-    },
-    getData() {
-      axios
-        .get("/api/v1/abyssraids/")
-        .then((response) => {
-          this.raid = response.data[0];
-
-          document.title = this.raid.name + " | LOA.runs";
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
   },
 };
