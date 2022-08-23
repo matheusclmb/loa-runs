@@ -4,3 +4,4 @@ from .models import *
 # Register your models here.
 admin.site.register(AbyssRaids)
 admin.site.register(LegionRaids)
+admin.site.register(Runs)
