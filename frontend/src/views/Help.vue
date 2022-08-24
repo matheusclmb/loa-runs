@@ -1,6 +1,8 @@
 <template>
   <div class="box has-text-centered">
-    <h1 class="is-size-4"><strong> How to submit a run</strong></h1>
+    <h1 class="is-size-4">
+      <strong> How to submit a run</strong>
+    </h1>
     <ul>
       <li>Click on <router-link to="/submitrun">Submit Run</router-link></li>
       <li>
@@ -16,6 +18,9 @@
         shown at the respective category and time.
       </li>
     </ul>
+
+    <h1 class="is-size-4 mt-6">Example</h1>
+    <img src="../assets/formexample.png" alt="" />
   </div>
 </template>
 
