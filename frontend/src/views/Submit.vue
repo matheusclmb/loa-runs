@@ -10,7 +10,10 @@
       Enter valid data and attach a proof (Youtube/Twitch/Video or Screenshot),
       runs without proof will be insta declined.
     </p>
-    <p class="mb-3">In case you need, here is a template of the form: link</p>
+    <p class="mb-3">
+      In case you need, here is a template of the form:
+      <routerLink to="/help">Click here</routerLink>
+    </p>
     <p class="mb-3">
       We need your discord for contacting you if anything happens or if we need
       additional information.
@@ -20,14 +23,16 @@
   <div
     class="form is-flex is-justify-content-center has-text-centered fullclass"
   >
-    <form method="post" @submit.prevent="postNow">
+    <form ref="formrun" method="post" @submit.prevent="postNow">
       <label for="oi">Proof:</label>
 
       <div class="control social">
         <label class="radio">
           <input
+            class="radiovil"
             type="radio"
-            name="youtube-choice"
+            value="0"
+            name="screenshot-choice"
             v-on:click="getOption('youtube-choice')"
             v-bind:class="{ 'is-active': isActive === 'youtube-choice' }"
           />
@@ -37,6 +42,7 @@
         <label class="radio">
           <input
             type="radio"
+            value="1"
             name="screenshot-choice"
             v-on:click="getOption('screenshot-choice')"
             v-bind:class="{ 'is-active': isActive === 'screenshot-choice' }"
@@ -47,14 +53,20 @@
 
       <div v-if="isActive === 'screenshot-choice'" class="file has-name social">
         <label class="file-label">
-          <input class="file-input" type="file" name="resume" />
+          <input
+            class="file-input"
+            type="file"
+            name="resume"
+            v-on:change="fileUp"
+            ref="file"
+          />
           <span class="file-cta">
             <span class="file-icon">
               <i class="fas fa-upload"></i>
             </span>
             <span class="file-label"> Choose a file… </span>
           </span>
-          <span class="file-name"> No screenshot selected </span>
+          <span class="file-name"> {{ fileName }}</span>
         </label>
       </div>
 
@@ -74,25 +86,46 @@
       </div>
 
       <div class="social is-flex">
-        <div class="select">
-          <select name="raid_type" v-model="raid_type">
-            <option>Abyss Raid</option>
-            <option>Legion Raid</option>
-          </select>
+        <div class="field">
+          <label class="label">Raid Type</label>
+          <div class="select">
+            <select name="raid_type" v-model="raid_type">
+              <option>Abyss Raid</option>
+              <option>Legion Raid</option>
+            </select>
+          </div>
         </div>
 
-        <div class="select">
-          <select name="raid_name" v-model="raid_name">
-            <option>Argos</option>
-            <option>Valtan</option>
-          </select>
+        <div class="field">
+          <label class="label">Raid Name</label>
+          <div class="select">
+            <select name="raid_name" v-model="raid_name">
+              <option value="Argos">Argos</option>
+              <option value="Valtan">Valtan</option>
+              <option value="Vykas">Vykas</option>
+            </select>
+          </div>
         </div>
 
-        <div class="select">
-          <select name="difficulty" v-model="difficulty">
-            <option>Normal</option>
-            <option>Valtan</option>
-          </select>
+        <div class="field">
+          <label class="label">Mode</label>
+          <div class="select">
+            <select name="difficulty" v-model="difficulty">
+              <option>Normal</option>
+              <option>Hard</option>
+              <option>Inferno</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Deathless?</label>
+          <div class="select">
+            <select name="deathless" v-model="deathless">
+              <option>True</option>
+              <option>False</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -110,18 +143,12 @@
             <i class="fas fa-stopwatch"></i>
           </span>
         </p>
-
-        <div class="select">
-          <select name="deathless" v-model="deathless">
-            <option>Deathless</option>
-            <option>No</option>
-          </select>
-        </div>
       </div>
 
       <div class="social">
         <p class="control has-icons-left">
           <input
+            ref="discord"
             class="input"
             type="text"
             placeholder="Discord"
@@ -187,7 +214,7 @@
             placeholder="Item Level"
             required
             name="playerOneLVL"
-            v-model="playerOneLVL"
+            v-model="playerTwoLVL"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
@@ -197,14 +224,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 3" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 3"
+            name="playerThree"
+            v-model="playerThree"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerThreeLVL"
+            v-model="playerThreeLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -213,14 +252,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 4" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 4"
+            name="playerFour"
+            v-model="playerFour"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerFourLVL"
+            v-model="playerFourLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -229,14 +280,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 5" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 5"
+            name="playerFive"
+            v-model="playerFive"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerFiveLVL"
+            v-model="playerFiveLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -245,14 +308,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 6" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 6"
+            name="playerSix"
+            v-model="playerSix"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerSixLVL"
+            v-model="playerSixLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -261,14 +336,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 7" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 7"
+            name="playerSeven"
+            v-model="playerSeven"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerSevenLVL"
+            v-model="playerSevenLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -277,14 +364,26 @@
 
       <div class="players is-flex">
         <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Player 8" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Player 8"
+            name="playerEight"
+            v-model="playerEight"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-users"></i>
           </span>
         </p>
 
         <p class="control has-icons-left">
-          <input class="input" type="number" placeholder="Item Level" />
+          <input
+            class="input"
+            type="number"
+            placeholder="Item Level"
+            name="playerEightLVL"
+            v-model="playerEightLVL"
+          />
           <span class="icon is-small is-left">
             <i class="fas fa-arrow-up-9-1"></i>
           </span>
@@ -300,37 +399,14 @@
 
 <script>
 import axios from "axios";
+import { useToast } from "vue-toast-notification";
 
 export default {
   name: "Submit Run",
   data() {
     return {
       isActive: "none",
-      form: {
-        youtube: "",
-        screenshot: "",
-        raid_type: "",
-        difficulty: "",
-        time: "",
-        deathless: "",
-        discord: "",
-        playerOne: "",
-        playerTwo: "",
-        playerThree: "",
-        playerFour: "",
-        playerFive: "",
-        playerSix: "",
-        playerSeven: "",
-        playerEight: "",
-        playerOneLVL: "",
-        playerTwoLVL: "",
-        playerThreeLVL: "",
-        playerFourLVL: "",
-        playerFiveLVL: "",
-        playerSixLVL: "",
-        playerSevenLVL: "",
-        playerEightLVL: "",
-      },
+      fileName: "No screenshot selected",
     };
   },
   components: {},
@@ -341,13 +417,60 @@ export default {
     getOption(option) {
       this.isActive = option;
     },
+
+    clearInput() {
+      this.$refs["formrun"].reset();
+    },
     postNow() {
-      axios.post("/api/v1/createrun/", this.form),
+      const toast = useToast();
+      const formData = new FormData();
+
+      if (this.isActive === "screenshot-choice") {
+        formData.append("screenshot", this.newfile);
+      } else {
+        formData.append("youtube", this.youtube);
+      }
+
+      formData.append("raid_type", this.raid_type);
+      formData.append("raid_name", this.raid_name);
+      formData.append("difficulty", this.difficulty);
+      formData.append("time", this.time);
+      formData.append("deathless", this.deathless);
+      formData.append("discord", this.discord);
+      formData.append("playerOne", this.playerOne);
+      formData.append("playerTwo", this.playerTwo);
+      formData.append("playerThree", this.playerThree);
+      formData.append("playerFour", this.playerFour);
+      formData.append("playerFive", this.playerFive);
+      formData.append("playerSix", this.playerSix);
+      formData.append("playerSeven", this.playerSeven);
+      formData.append("playerEight", this.playerEight);
+      formData.append("playerOneLVL", this.playerOneLVL);
+      formData.append("playerTwoLVL", this.playerTwoLVL);
+      formData.append("playerThreeLVL", this.playerThreeLVL);
+      formData.append("playerFourLVL", this.playerFourLVL);
+      formData.append("playerFiveLVL", this.playerFiveLVL);
+      formData.append("playerSixLVL", this.playerSixLVL);
+      formData.append("playerSevenLVL", this.playerSevenLVL);
+      formData.append("playerEightLVL", this.playerEightLVL);
+
+      axios
+        .post("/api/v1/createrun/", formData)
+        .then(() => {
+          this.clearInput(), toast.success("Your run has been submitted!");
+        })
+        .catch((error) => {
+          toast.error("Something went wrong, please try again.");
+        }),
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "multipart/form-data",
           },
         };
+    },
+    fileUp(e) {
+      this.newfile = e.target.files[0];
+      this.fileName = this.newfile.name;
     },
   },
 };
@@ -364,5 +487,9 @@ export default {
 
 button {
   margin-top: 10px !important;
+}
+
+input[type="radio"] {
+  accent-color: hsl(229deg, 53%, 53%) !important;
 }
 </style>
