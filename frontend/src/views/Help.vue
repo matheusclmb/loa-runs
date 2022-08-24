@@ -29,5 +29,8 @@
 
 export default {
   name: "Help",
+  mounted() {
+    document.title = "Help | LOA.runs";
+  },
 };
 </script>

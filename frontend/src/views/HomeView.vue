@@ -34,5 +34,8 @@
 
 export default {
   name: "HomeView",
+  mounted() {
+    document.title = "LOA.runs";
+  },
 };
 </script>
