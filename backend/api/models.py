@@ -51,6 +51,7 @@ class LegionRaids(models.Model):
             return "http://127.0.0.1:8000" + self.image.url
         return ""
 
+
 class Runs(models.Model):
     class Meta:
         verbose_name_plural = "Runs"
@@ -58,18 +59,17 @@ class Runs(models.Model):
     TYPE_CHOICE = (("Abyss Raid", "Abyss Raid"), ("Legion Raid", "Legion Raid"))
 
     RAID_NAMES = (
-        ("Argos", "Argos"), 
-        ("Valtan", "Vykas"),
+        ("Argos", "Argos"),
+        ("Valtan", "Valtan"),
+        ("Vykas", "Vykas"),
         ("Kakul-Saydon", "Kakul-Saydon"),
-        )
+    )
 
     DIFFICULTIES = (
         ("Normal", "Normal"),
         ("Hard", "Hard"),
         ("Inferno", "Inferno"),
-        )
-
-    
+    )
 
     youtube = models.URLField(blank=True, null=True)
     screenshot = models.ImageField(upload_to="runs/", blank=True, null=True)
@@ -97,7 +97,29 @@ class Runs(models.Model):
     playerSixLVL = models.IntegerField(default=0, blank=True, null=True)
     playerSevenLVL = models.IntegerField(default=0, blank=True, null=True)
     playerEightLVL = models.IntegerField(default=0, blank=True, null=True)
+    averageIlvl = models.FloatField(default=0)
 
+    def save(self, *args, **kwargs):
+        players = [
+            self.playerOneLVL,
+            self.playerTwoLVL,
+            self.playerThreeLVL,
+            self.playerFourLVL,
+            self.playerFiveLVL,
+            self.playerSixLVL,
+            self.playerSevenLVL,
+            self.playerEightLVL,
+        ]
+
+        valid_players = []
+
+        for i in players:
+            if i > 0:
+                valid_players.append(i)
+
+        self.averageIlvl = sum(valid_players) / len(valid_players)
+
+        super(Runs, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"N: {self.raid_name} - D: {self.difficulty} - T: {self.time} - {self.discord}"
