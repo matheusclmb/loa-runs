@@ -174,6 +174,7 @@ export default {
   mounted() {
     this.getRunsData();
     this.getHardData();
+    this.getInfernoData();
     this.getData();
   },
   methods: {

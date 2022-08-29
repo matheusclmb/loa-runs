@@ -162,8 +162,6 @@ export default {
       count: 0,
       raid: [],
       runData: [],
-      hardData: [],
-      infernoData: [],
       isActive: "normal",
     };
   },
@@ -172,7 +170,6 @@ export default {
   },
   mounted() {
     this.getRunsData();
-    this.getHardData();
     this.getData();
   },
   methods: {
@@ -193,32 +190,10 @@ export default {
     },
     getRunsData() {
       axios
-        .get("/api/v1/abyssraids/vykas/normal/")
+        .get("/api/v1/abyssraids/argos")
         .then((response) => {
           this.runData = response.data;
         })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getHardData() {
-      axios
-        .get("/api/v1/abyssraids/vykas/hard/")
-        .then((response) => {
-          this.hardData = response.data;
-        })
-
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getInfernoData() {
-      axios
-        .get("/api/v1/abyssraids/vykas/inferno/")
-        .then((response) => {
-          this.infernoData = response.data;
-        })
-
         .catch((error) => {
           console.log(error);
         });

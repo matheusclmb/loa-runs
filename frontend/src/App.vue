@@ -88,10 +88,15 @@
         <a href="https://smilegate.com/">SmileGate</a>. All rights reserved to
         those companies.
       </p>
+      <p>
+        If anything is wrong, faulty or not working, please open an issue on
+        GitHub or contact me on Discord:
+        <span class="has-text-link">persa#0013</span>
+      </p>
       <div class="field is-grouped is-justify-content-center">
         <p class="control">
           <a
-            class="button is-link"
+            class="button is-secondary"
             href="https://github.com/matheusclmb/loa-runs"
             target="_blank"
           >
