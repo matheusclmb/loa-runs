@@ -10,12 +10,14 @@ from rest_framework.decorators import api_view
 def home(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
+
 class blog(APIView):
     def get(self, request):
         blogs = Blog.objects.all()
-        result = blogs.order_by('-id')
+        result = blogs.order_by("-id")
         serializer = BlogSerializer(result, many=True)
         return Response(serializer.data)
+
 
 class abyssraids(APIView):
     def get(self, request):
@@ -75,7 +77,7 @@ class ValtanRunsInferno(APIView):
 class VykasRunsNormal(APIView):
     def get(self, request):
         vykas = Runs.objects.filter(raid_name="Vykas").filter(difficulty="Normal")
-        serializer = AbyssRaidsSerializer(vykas, many=True)
+        serializer = RunsSerializer(vykas, many=True)
         return Response(serializer.data)
 
 
