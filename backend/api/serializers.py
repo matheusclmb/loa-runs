@@ -36,3 +36,9 @@ class RunsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Runs
         fields = '__all__'
+
+class BlogSerializer(serializers.ModelSerializer):
+    date =  serializers.DateField(format="%d-%m-%Y")
+    class Meta:
+        model = Blog
+        fields = '__all__'

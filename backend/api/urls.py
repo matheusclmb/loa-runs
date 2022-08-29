@@ -20,4 +20,5 @@ urlpatterns = [
     path("legionraids/", legionraids.as_view(), name="legionraids"),
     path("runs/", runs.as_view(), name="runs"),
     path("createrun/", CreateRun.as_view(), name="create"),
+    path("blog/", blog.as_view(), name="blog"),
 ]

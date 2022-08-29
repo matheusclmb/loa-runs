@@ -10,19 +10,25 @@
     </div>
   </div>
 
-  <div class="topthree has-text-centered">
-    <h1 class="is-size-3 has-text-centered">Last Update</h1>
+  <h1 class="is-size-3 has-text-centered">Last Updates</h1>
+
+  <div
+    v-for="post in blogpost"
+    v-bind:key="post"
+    class="topthree has-text-centered mb-5"
+  >
     <div class="card">
       <header class="card-header">
-        <p class="card-header-title">New website structure</p>
+        <p class="card-header-title">
+          {{ post.title }} ‎
+          <time class="has-text-primary"> ({{ post.date }})</time>
+        </p>
       </header>
       <div class="card-content">
         <div class="content">
           <p>
-            The website is now split into two different pages. The first page is
-            the home page, and the second page is the abyss raid page.
+            {{ post.body }}
           </p>
-          <time>11:09 PM - 22 Aug 2022</time>
         </div>
       </div>
     </div>
@@ -31,11 +37,31 @@
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
 
 export default {
   name: "HomeView",
+  data() {
+    return {
+      blogpost: [],
+    };
+  },
   mounted() {
+    this.getData();
     document.title = "LOA.runs";
+  },
+  methods: {
+    getData() {
+      axios
+        .get("/api/v1/blog/")
+        .then((response) => {
+          this.blogpost = response.data;
+          document.title = "LOA.runs";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
