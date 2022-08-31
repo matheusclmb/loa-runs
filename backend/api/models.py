@@ -123,8 +123,9 @@ class Runs(models.Model):
         valid_players = []
 
         for i in players:
-            if i > 0:
-                valid_players.append(i)
+            if i != None:
+                if i > 0:
+                    valid_players.append(i)
 
         self.averageIlvl = sum(valid_players) / len(valid_players)
 
