@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: docker-loaruns-db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+  django:
+    build:
+      context: .
+      dockerfile: ./docker/BackendDockerfile
+    container_name: docker-loaruns-backend
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      POSTGRES_NAME: postgres
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_HOST: db
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  vue:
+    build:
+      context: .
+      dockerfile: ./docker/FrontendDockerfile
+    container_name: docker-loaruns-frontend
+    command: ./docker/frontend_setup.sh
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - django

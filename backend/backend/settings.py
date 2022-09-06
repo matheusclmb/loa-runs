@@ -9,24 +9,29 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 
 from pathlib import Path
 from django.conf.locale.en import formats as en_formats
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-t5b2xm-9^7u$s^=k+4_fe#@w487!vpmiy0fnbnm_aou+b3t)c*"
+SECRET_KEY = os.getenv("DJANGOKEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
+TEST_RUNNER = "django_rich.test.RichRunner"
 
 en_formats.DATETIME_FORMAT = "d-m-Y H:i:s"
 
@@ -132,3 +137,53 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "superverbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
+        },
+        "verbose": {"format": "%(levelname)s %(asctime)s %(module)s %(message)s"},
+        "simple": {"format": "%(levelname)s %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+        "formatter": "verbose",
+    },
+    "loggers": {
+        "django.utils.autoreload": {
+            "handlers": [],
+            "level": "ERROR",
+        },
+        "django": {
+            "level": os.getenv("DJANGO_LOG_LEVEL", "INFO"),
+            "handlers": ["console"],
+            "propagate": True,
+        },
+        "somelib": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "somelib.package": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "my_app": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+    },
+}
