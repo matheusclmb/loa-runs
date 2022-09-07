@@ -5,8 +5,8 @@ services:
     image: postgres
     container_name: docker-loaruns-db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: persa
+      POSTGRES_PASSWORD: loaruns
       POSTGRES_DB: db
     restart: unless-stopped
     ports:
@@ -19,9 +19,9 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     environment:
       POSTGRES_NAME: postgres
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_HOST: db
+      POSTGRES_USER: persa
+      POSTGRES_PASSWORD: loaruns
+      POSTGRES_HOST: localhost
     volumes:
       - .:/app
     ports:
