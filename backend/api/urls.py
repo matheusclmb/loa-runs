@@ -20,7 +20,8 @@ urlpatterns = [
         "legionraids/vykas/inferno/", VykasRunsInferno.as_view(), name="vykas_inferno"
     ),
     path("legionraids/", legionraids.as_view(), name="legionraids"),
-    path("runs/", runs.as_view(), name="runs"),
+    path("allruns/", runs.as_view(), name="runs"),
+    path("validruns/", ValidRuns.as_view(), name="validruns"),
     path("createrun/", CreateRun.as_view(), name="create"),
     path("blog/", blog.as_view(), name="blog"),
 ]

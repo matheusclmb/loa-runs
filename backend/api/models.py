@@ -107,6 +107,7 @@ class Runs(models.Model):
     playerSevenLVL = models.IntegerField(default=0, blank=True, null=True)
     playerEightLVL = models.IntegerField(default=0, blank=True, null=True)
     averageIlvl = models.FloatField(default=0)
+    isValid = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         players = [

@@ -14,7 +14,7 @@ def home(request):
 class blog(APIView):
     def get(self, request):
         blogs = Blog.objects.all()
-        result = blogs.order_by("-id")
+        result = blogs.order_by("-id")[:50]
         serializer = BlogSerializer(result, many=True)
         return Response(serializer.data)
 
@@ -40,6 +40,13 @@ class runs(APIView):
         return Response(serializer.data)
 
 
+class ValidRuns(APIView):
+    def get(self, request):
+        run = Runs.objects.filter(isValid=True)
+        serializer = RunsSerializer(run, many=True)
+        return Response(serializer.data)
+
+
 class CreateRun(generics.CreateAPIView):
     queryset = Runs.objects.all()
     serializer_class = RunsSerializer
@@ -48,48 +55,82 @@ class CreateRun(generics.CreateAPIView):
 # RAIDS SPECIFICS
 class ArgosRuns(APIView):
     def get(self, request):
-        argos = Runs.objects.filter(raid_name="Argos")
+        argos = (
+            Runs.objects.filter(raid_name="Argos")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(argos, many=True)
         return Response(serializer.data)
 
 
 class ValtanRunsNormal(APIView):
     def get(self, request):
-        valtan = Runs.objects.filter(raid_name="Valtan").filter(difficulty="Normal")
+        valtan = (
+            Runs.objects.filter(raid_name="Valtan")
+            .filter(difficulty="Normal")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(valtan, many=True)
         return Response(serializer.data)
 
 
 class ValtanRunsHard(APIView):
     def get(self, request):
-        valtan = Runs.objects.filter(raid_name="Valtan").filter(difficulty="Hard")
+        valtan = (
+            Runs.objects.filter(raid_name="Valtan")
+            .filter(difficulty="Hard")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(valtan, many=True)
         return Response(serializer.data)
 
 
 class ValtanRunsInferno(APIView):
     def get(self, request):
-        valtan = Runs.objects.filter(raid_name="Valtan").filter(difficulty="Inferno")
+        valtan = (
+            Runs.objects.filter(raid_name="Valtan")
+            .filter(difficulty="Inferno")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(valtan, many=True)
         return Response(serializer.data)
 
 
 class VykasRunsNormal(APIView):
     def get(self, request):
-        vykas = Runs.objects.filter(raid_name="Vykas").filter(difficulty="Normal")
+        vykas = (
+            Runs.objects.filter(raid_name="Vykas")
+            .filter(difficulty="Normal")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(vykas, many=True)
         return Response(serializer.data)
 
 
 class VykasRunsHard(APIView):
     def get(self, request):
-        vykas = Runs.objects.filter(raid_name="Vykas").filter(difficulty="Hard")
+        vykas = (
+            Runs.objects.filter(raid_name="Vykas")
+            .filter(difficulty="Hard")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(vykas, many=True)
         return Response(serializer.data)
 
 
 class VykasRunsInferno(APIView):
     def get(self, request):
-        vykas = Runs.objects.filter(raid_name="Vykas").filter(difficulty="Inferno")
+        vykas = (
+            Runs.objects.filter(raid_name="Vykas")
+            .filter(difficulty="Inferno")
+            .filter(isValid=True)
+            .order_by("time")[:50]
+        )
         serializer = RunsSerializer(vykas, many=True)
         return Response(serializer.data)
