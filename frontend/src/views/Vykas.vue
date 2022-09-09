@@ -49,7 +49,7 @@
           <tr class="has-text-centered">
             <th>Position</th>
             <th>Name</th>
-            <th>iLvl</th>
+            <th>Avg. iLvl</th>
             <th>Time</th>
             <th>Deathless</th>
             <th>Proof</th>
@@ -84,7 +84,7 @@
           <tr class="has-text-centered">
             <th>Position</th>
             <th>Name</th>
-            <th>iLvl</th>
+            <th>Avg. iLvl</th>
             <th>Time</th>
             <th>Deathless</th>
             <th>Proof</th>
@@ -119,7 +119,7 @@
           <tr class="has-text-centered">
             <th>Position</th>
             <th>Name</th>
-            <th>iLvl</th>
+            <th>Avg. iLvl</th>
             <th>Time</th>
             <th>Deathless</th>
             <th>Proof</th>
