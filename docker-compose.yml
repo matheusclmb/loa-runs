@@ -3,6 +3,8 @@ version: "3.9"
 services:
   db:
     image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
     container_name: docker-loaruns-db
     environment:
       POSTGRES_USER: persa
