@@ -1,4 +1,7 @@
 <template>
+  <div class="loadingscene">
+    <img src="../assets/spin.svg" v-if="notLoaded" />
+  </div>
   <RaidInfo v-bind:raid="raid" />
   <div class="tabs is-toggle is-centered">
     <ul>
@@ -92,7 +95,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(run, index) in hardData" v-bind:key="run.id">
+          <tr v-for="(run, index) in hardData.slice(0, 51)" v-bind:key="run.id">
             <td>{{ index + 1 }}</td>
             <td>
               {{ run.playerOne }} - {{ run.playerTwo }} -
@@ -160,6 +163,7 @@ export default {
   name: "Valtan",
   data() {
     return {
+      notLoaded: true,
       count: 0,
       raid: [],
       runData: [],
@@ -171,6 +175,7 @@ export default {
   components: {
     RaidInfo,
   },
+
   mounted() {
     this.getRunsData();
     this.getHardData();
@@ -219,6 +224,7 @@ export default {
         .get("/api/v1/legionraids/valtan/inferno/")
         .then((response) => {
           this.infernoData = response.data;
+          // this.notLoaded = false;
         })
 
         .catch((error) => {

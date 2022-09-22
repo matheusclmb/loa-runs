@@ -1,0 +1,10 @@
+.loadingscene {
+  width: 200vw !important;
+  height: 200vh !important;
+  background: #fff !important;
+  z-index: 9999 !important;
+}
+
+.loadingscene img {
+  margin-left: 200px !important;
+}
